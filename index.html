@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Image</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        #images {
+            border: 1px solid red;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #images img {
+            width: 100%;
+        }
+        #getImageBtn {
+            margin-bottom: 50px;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 15px;
+            border: none;
+            background-color: rgb(0, 140, 255);
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="getImageBtn" onclick="getImage()">Get Image</button>
+    <div id="images">
+        <h2>Images will show here...</h2>
+    </div>
+    <script>
+        const imageContainer = document.getElementById("images");
+        async function getImage() {
+            const url = 'https://free-images-api.p.rapidapi.com/images/wallpaper';
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': '0fd0fdce4cmsh90ae1515049fd9bp166bdcjsn4dcf79b6d893',
+                    'X-RapidAPI-Host': 'free-images-api.p.rapidapi.com'
+                }
+            };
+    
+            try {
+                const response = await fetch(url, options);
+                const resultJSON = await response.json();
+                const image = resultJSON.results[Math.floor(Math.random() * resultJSON.results.length)];
+                console.log(image);
+                const imgElement = document.createElement("img");
+                imgElement.src = image.image;
+                imageContainer.innerHTML = "";
+                imageContainer.appendChild(imgElement);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
